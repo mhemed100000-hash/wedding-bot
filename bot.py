@@ -5,6 +5,7 @@ from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filte
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 OWNER_ID = 8541159331
+TOIII_ID = 8575179469
 
 weddings = {}
 
@@ -30,6 +31,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if user.id == OWNER_ID:
             partner_name = "Judy 👸"
+        elif user.id == TOIII_ID:
+            partner_name = "طارق 🤵"
         else:
             try:
                 admins = await context.bot.get_chat_administrators(chat_id)
