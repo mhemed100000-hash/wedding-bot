@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
+OWNER_ID = 8541159331
 
 weddings = {}
 
@@ -18,59 +19,63 @@ poems = [
     "كل النجوم في السماء تحسدني لأنكِ اخترتِني",
 ]
 
-weddings = {}
-
-async def zawejni(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.effective_chat.id
-    user = update.effective_user
-
-    try:
-        chat_members = await context.bot.get_chat_administrators(chat_id)
-        members = [m.user for m in chat_members if not m.user.is_bot and m.user.id != user.id]
-    except:
-        await update.message.reply_text("❌ أعطني صلاحية مشرف!")
-        return
-
-    if not members:
-        await update.message.reply_text("❌ ما في أعضاء كافيين!")
-        return
-
-    partner = random.choice(members)
-    poem = random.choice(poems)
-
-    user_name = f"@{user.username}" if user.username else user.first_name
-    partner_name = f"@{partner.username}" if partner.username else partner.first_name
-
-    if chat_id not in weddings:
-        weddings[chat_id] = []
-    weddings[chat_id].append((user_name, partner_name))
-
-    msg = (
-        f"💍 تم الزواج! 💍\n\n"
-        f"🤵 {user_name}\n"
-        f"👰 {partner_name}\n\n"
-        f"❝ {poem} ❞\n\n"
-        f"مبروك عليكم! 🎉"
-    )
-    await update.message.reply_text(msg)
-
-async def almutazawejoun(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.effective_chat.id
-    if chat_id not in weddings or not weddings[chat_id]:
-        await update.message.reply_text("💔 ما في متزوجين بعد!")
-        return
-
-    msg = "📜 سجل المتزوجين:\n\n"
-    for i, (a, b) in enumerate(weddings[chat_id], 1):
-        msg += f"{i}. 🤵 {a} 💍 {b} 👰\n"
-    await update.message.reply_text(msg)
-
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
+    user = update.effective_user
+    chat_id = update.effective_chat.id
+
     if text == "زوجني":
-        await zawejni(update, context)
+        poem = random.choice(poems)
+        user_name = f"@{user.username}" if user.username else user.first_name
+
+        if user.id == OWNER_ID:
+            partner_name = "Judy 👸"
+        else:
+            try:
+                admins = await context.bot.get_chat_administrators(chat_id)
+                members = [m.user for m in admins if not m.user.is_bot and m.user.id != user.id]
+                if not members:
+                    await update.message.reply_text("❌ ما في أعضاء كافيين!")
+                    return
+                partner = random.choice(members)
+                partner_name = f"@{partner.username}" if partner.username else partner.first_name
+            except:
+                await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+                return
+
+        if chat_id not in weddings:
+            weddings[chat_id] = {}
+        weddings[chat_id][user.id] = partner_name
+
+        msg = (
+            f"💍 تم الزواج! 💍\n\n"
+            f"🤵 {user_name}\n"
+            f"👰 {partner_name}\n\n"
+            f"❝ {poem} ❞\n\n"
+            f"مبروك عليكم! 🎉"
+        )
+        await update.message.reply_text(msg)
+
+    elif text == "طلقني":
+        user_name = f"@{user.username}" if user.username else user.first_name
+        if chat_id in weddings and user.id in weddings[chat_id]:
+            partner_name = weddings[chat_id].pop(user.id)
+            await update.message.reply_text(
+                f"💔 تم الطلاق!\n\n"
+                f"{user_name} طلّق {partner_name}\n\n"
+                f"الله يعوض بالأحسن 😢"
+            )
+        else:
+            await update.message.reply_text("❌ أنت مو متزوج أصلاً! 😄")
+
     elif text == "المتزوجون":
-        await almutazawejoun(update, context)
+        if chat_id not in weddings or not weddings[chat_id]:
+            await update.message.reply_text("💔 ما في متزوجين بعد!")
+            return
+        msg = "📜 سجل المتزوجين:\n\n"
+        for i, (uid, partner) in enumerate(weddings[chat_id].items(), 1):
+            msg += f"{i}. 💍 {partner}\n"
+        await update.message.reply_text(msg)
 
 if __name__ == "__main__":
     application = ApplicationBuilder().token(BOT_TOKEN).build()
