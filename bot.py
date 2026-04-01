@@ -170,6 +170,9 @@ def get_iq_bar(percentage):
 def get_name(user):
     return f"[{user.first_name}](tg://user?id={user.id})"
 
+def get_plain_name(user):
+    return user.first_name
+
 async def get_members(context, chat_id, exclude_id=None):
     try:
         admins = await context.bot.get_chat_administrators(chat_id)
@@ -202,7 +205,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await update.message.reply_text("❌ أعطني صلاحية مشرف!")
                 return
             partner = random.choice(members)
-            partner_name = get_name(partner)
+            partner_name = get_plain_name(partner)
             poem = random.choice(poems)
 
         if chat_id not in weddings:
@@ -281,7 +284,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         await update.message.reply_text(
             f"👨‍⚖️ {random.choice(intros)}:\n\n"
-            f"{get_name(chosen)}\n"
+            f"{get_plain_name(chosen)}\n"
             f"هو/هي {title}\n\n"
             f"وهاد مو قابل للنقاش! 😂",
             parse_mode="Markdown"
@@ -301,7 +304,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         await update.message.reply_text(
             f"😏 {random.choice(intros)}:\n\n"
-            f"{user_name} يعترف إن {get_name(chosen)}\n"
+            f"{user_name} يعترف إن {get_plain_name(chosen)}\n"
             f"{secret}\n\n"
             f"وهاد موثق ومو قابل للنفي 😂",
             parse_mode="Markdown"
@@ -318,9 +321,9 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         comment = random.choice(win_comments)
         await update.message.reply_text(
             f"⚔️ مبارزة بلا رحمة!\n\n"
-            f"{get_name(p1)} 🆚 {get_name(p2)}\n\n"
-            f"🏆 الفائز: {get_name(winner)}\n"
-            f"💀 الخاسر: {get_name(loser)}\n\n"
+            f"{get_plain_name(p1)} 🆚 {get_plain_name(p2)}\n\n"
+            f"🏆 الفائز: {get_plain_name(winner)}\n"
+            f"💀 الخاسر: {get_plain_name(loser)}\n\n"
             f"{comment}",
             parse_mode="Markdown"
         )
@@ -356,7 +359,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 break
         await update.message.reply_text(
             f"💘 تقرير النسوانجية الرسمي!\n\n"
-            f"الشخص: {get_name(chosen)}\n\n"
+            f"الشخص: {get_plain_name(chosen)}\n\n"
             f"{'█' * (percentage // 10)}{'░' * (10 - percentage // 10)} {percentage}%\n\n"
             f"{comment}",
             parse_mode="Markdown"
@@ -375,7 +378,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 break
         await update.message.reply_text(
             f"❤️ تقرير الحب الرسمي!\n\n"
-            f"{user_name} بح بـ {get_name(chosen)}\n\n"
+            f"{user_name} بح بـ {get_plain_name(chosen)}\n\n"
             f"{'█' * (percentage // 10)}{'░' * (10 - percentage // 10)} {percentage}%\n\n"
             f"{comment}",
             parse_mode="Markdown"
