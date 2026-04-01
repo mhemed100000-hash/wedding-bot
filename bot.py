@@ -30,24 +30,49 @@ omar_lines = [
 ]
 
 titles = [
+    "ملك النوم في أوقات الدوام 😴",
+    "رئيس جمعية آكلي الشاورما 🌯",
+    "أكثر شخص يتظاهر إنه مشغول 📱",
+    "بطل التأخير الرسمي ⏰",
+    "المدير التنفيذي للكسل 🛋️",
+    "أمير الواتساب الأزرق اللي ما يرد 💬",
+    "حارس البطانية الرسمي 🛏️",
+    "نجم تيك توك في الحمام 🚿",
+    "رئيس لجنة التسويف والتأجيل 📅",
+    "الشخص الوحيد اللي ينام ويحلم بالنوم 💤",
     "ملك الكروب 👑",
-    "أكثر شخص نعسان 😴",
     "نجم اليوم ⭐",
-    "الشخص الأكثر تفكيراً 🤔",
     "بطل الكروب 🏆",
-    "الأكثر ضحكاً 😂",
     "الأذكى في الكروب 🧠",
-    "الأكثر كسلاً 😪",
+    "الأكثر ضحكاً 😂",
 ]
 
 secrets = [
-    "يحب يغني بصوت عالي لما يكون لحاله 🎤",
-    "يضحك على نكته مرتين، مرة لما يسمعها ومرة لما يفهمها 😂",
-    "ينام وهو يفكر بالأكل 🍕",
-    "يتظاهر إنه مشغول وهو بس يتصفح تيك توك 📱",
-    "يحب يرقص لما ما أحد يشوفه 💃",
-    "يكذب إنه بخير وهو ما بخير 😅",
-    "يحفظ أغاني ويغنيها بالحمام 🚿",
+    "يغني أغاني فيروز بالحمام وهو يتخيل إنه في حفلة 🎤",
+    "يكذب إنه مشغول وهو بس يتفرج على ريلز 📱",
+    "يطلب طلب كبير من المطعم ويقول بس لحالي مو كفاية 🍔",
+    "يضحك على نكتة بعد ساعة لما يفهمها 😂",
+    "يتمسخر على أصحابه وبعدين يقول مزحت والله 😅",
+    "يدخل الثلاجة كل خمس دقايق وهو عارف ما في شي جديد 🧊",
+    "يحط ألارمات كتير ويطفيهم كلهم 🔕",
+    "يقول آخر رسالة وبعدين يرسل عشرين رسالة 💬",
+    "يشتري شي ما يحتاجه بس كان عرض مغري 🛍️",
+    "ينسى اسم شخص قابله ألف مرة 😬",
+    "يتظاهر إنه مو جايع وبعدين يأكل أكثر من الكل 🍕",
+    "يحفظ أغاني ويغنيها بصوت عالي لما يكون لحاله 🎵",
+]
+
+win_comments = [
+    "فاز بضربة واحدة كأنه مدرب كاراتيه 🥋",
+    "الفائز بالقوة والكاريزما والشعر الجميل 💇",
+    "هزمه بنظرة واحدة بس 👁️",
+    "الفائز بالنقاط والمنطق والوجاهة 😎",
+    "تغلب عليه بسهولة كأنه يلعب مع نفسه 😂",
+    "الفائز بالذكاء الخارق والحظ المجنون 🧠",
+    "هزمه وهو نايم 😴",
+    "الفائز بالإجماع وبدون معارضة 🏆",
+    "فاز وهو مو مدري كيف 😂",
+    "الأقوى بلا منازع 💪",
 ]
 
 async def get_members(context, chat_id, exclude_id=None):
@@ -69,7 +94,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     user_name = get_name(user)
 
-    # ===== زوجني =====
     if text == "زوجني":
         if user.id == OWNER_ID:
             partner_name = "Judy 👸"
@@ -101,7 +125,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"مبروك عليكم! 🎉"
         )
 
-    # ===== طلقني =====
     elif text == "طلقني":
         if chat_id in weddings and user.id in weddings[chat_id]:
             partner_name = weddings[chat_id].pop(user.id)
@@ -113,7 +136,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await update.message.reply_text("❌ أنت مو متزوج أصلاً! 😄")
 
-    # ===== المتزوجون =====
     elif text == "المتزوجون":
         if chat_id not in weddings or not weddings[chat_id]:
             await update.message.reply_text("💔 ما في متزوجين بعد!")
@@ -123,7 +145,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             msg += f"{i}. 💍 {partner}\n"
         await update.message.reply_text(msg)
 
-    # ===== حظي =====
     elif text == "حظي":
         luck = random.randint(0, 100)
         if luck >= 80:
@@ -140,7 +161,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"{comment}"
         )
 
-    # ===== القاضي =====
     elif text == "القاضي":
         members = await get_members(context, chat_id)
         if not members:
@@ -153,7 +173,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"{get_name(chosen)} هو/هي {title} 🎉"
         )
 
-    # ===== اعترف =====
     elif text == "اعترف":
         members = await get_members(context, chat_id, user.id)
         if not members:
@@ -167,7 +186,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"{secret}"
         )
 
-    # ===== من الأقوى =====
     elif text == "من الأقوى":
         members = await get_members(context, chat_id)
         if len(members) < 2:
@@ -175,13 +193,14 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         p1, p2 = random.sample(members, 2)
         winner = random.choice([p1, p2])
+        comment = random.choice(win_comments)
         await update.message.reply_text(
             f"💪 مبارزة!\n\n"
             f"{get_name(p1)} ⚔️ {get_name(p2)}\n\n"
-            f"🏆 الفائز: {get_name(winner)}!"
+            f"🏆 الفائز: {get_name(winner)}\n"
+            f"{comment}"
         )
 
-    # ===== نردي =====
     elif text == "نردي":
         dice = random.randint(1, 6)
         faces = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"]
