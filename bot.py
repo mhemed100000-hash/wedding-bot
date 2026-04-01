@@ -75,6 +75,9 @@ win_comments = [
     "الأقوى بلا منازع 💪",
 ]
 
+def get_name(user):
+    return f"[{user.first_name}](tg://user?id={user.id})"
+
 async def get_members(context, chat_id, exclude_id=None):
     try:
         admins = await context.bot.get_chat_administrators(chat_id)
@@ -84,9 +87,6 @@ async def get_members(context, chat_id, exclude_id=None):
         return members
     except:
         return []
-
-def get_name(user):
-    return f"@{user.username}" if user.username else user.first_name
 
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
@@ -122,7 +122,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"🤵 {user_name}\n"
             f"👰 {partner_name}\n\n"
             f"❝ {poem} ❞\n\n"
-            f"مبروك عليكم! 🎉"
+            f"مبروك عليكم! 🎉",
+            parse_mode="Markdown"
         )
 
     elif text == "طلقني":
@@ -131,7 +132,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(
                 f"💔 تم الطلاق!\n\n"
                 f"{user_name} طلّق {partner_name}\n\n"
-                f"الله يعوض بالأحسن 😢"
+                f"الله يعوض بالأحسن 😢",
+                parse_mode="Markdown"
             )
         else:
             await update.message.reply_text("❌ أنت مو متزوج أصلاً! 😄")
@@ -143,7 +145,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         msg = "📜 سجل المتزوجين:\n\n"
         for i, (uid, partner) in enumerate(weddings[chat_id].items(), 1):
             msg += f"{i}. 💍 {partner}\n"
-        await update.message.reply_text(msg)
+        await update.message.reply_text(msg, parse_mode="Markdown")
 
     elif text == "حظي":
         luck = random.randint(0, 100)
@@ -158,7 +160,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"🍀 حظ {user_name} اليوم:\n\n"
             f"{'█' * (luck // 10)}{'░' * (10 - luck // 10)} {luck}%\n\n"
-            f"{comment}"
+            f"{comment}",
+            parse_mode="Markdown"
         )
 
     elif text == "القاضي":
@@ -170,7 +173,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         title = random.choice(titles)
         await update.message.reply_text(
             f"👨‍⚖️ القاضي يحكم:\n\n"
-            f"{get_name(chosen)} هو/هي {title} 🎉"
+            f"{get_name(chosen)} هو/هي {title} 🎉",
+            parse_mode="Markdown"
         )
 
     elif text == "اعترف":
@@ -183,7 +187,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"😏 اعتراف خطير!\n\n"
             f"{user_name} يعترف إن {get_name(chosen)}\n"
-            f"{secret}"
+            f"{secret}",
+            parse_mode="Markdown"
         )
 
     elif text == "من الأقوى":
@@ -198,7 +203,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"💪 مبارزة!\n\n"
             f"{get_name(p1)} ⚔️ {get_name(p2)}\n\n"
             f"🏆 الفائز: {get_name(winner)}\n"
-            f"{comment}"
+            f"{comment}",
+            parse_mode="Markdown"
         )
 
     elif text == "نردي":
@@ -212,7 +218,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             comment = "حاول مرة ثانية 😅"
         await update.message.reply_text(
             f"🎲 {user_name} رمى النرد:\n\n"
-            f"{faces[dice-1]} — {comment}"
+            f"{faces[dice-1]} — {comment}",
+            parse_mode="Markdown"
         )
 
 if __name__ == "__main__":
