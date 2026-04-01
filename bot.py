@@ -105,6 +105,34 @@ naswanji_comments = {
     ],
 }
 
+boh_comments = {
+    (90, 100): [
+        "هاد مو بح، هاد جنون! 😍",
+        "والله الحب هاد مو طبيعي، مباشر للزواج 💒",
+        "هاد الحب بيخوف، حرفياً 😂❤️",
+    ],
+    (70, 89): [
+        "حب حقيقي وما في كلام ثاني ❤️",
+        "بيحبه بجنون بس بيخبي 😏",
+        "هاد الحب واضح للكل غيره هو 😂❤️",
+    ],
+    (50, 69): [
+        "نص نص، يعني مو متأكد من حاله 😅",
+        "بيحبه بس بيتظاهر إنه عادي 😏",
+        "الحب موجود بس خجول شوي 😄",
+    ],
+    (30, 49): [
+        "شوية مشاعر بس مو كتير 😅",
+        "بيحبه بس الدنيا مو معه 😂",
+        "الحب ضعيف بس موجود 😏",
+    ],
+    (0, 29): [
+        "والله ما في حب هون، بس ما بيعترف 😂",
+        "صفر مشاعر، بيتظاهر بس 😏",
+        "هاد مو بح، هاد احترام بالغلط 😂",
+    ],
+}
+
 def get_name(user):
     return f"[{user.first_name}](tg://user?id={user.id})"
 
@@ -288,15 +316,32 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         chosen = random.choice(members)
         percentage = random.randint(0, 100)
-
         for (low, high), comments in naswanji_comments.items():
             if low <= percentage <= high:
                 comment = random.choice(comments)
                 break
-
         await update.message.reply_text(
             f"💘 تقرير النسوانجية الرسمي!\n\n"
             f"الشخص: {get_name(chosen)}\n\n"
+            f"{'█' * (percentage // 10)}{'░' * (10 - percentage // 10)} {percentage}%\n\n"
+            f"{comment}",
+            parse_mode="Markdown"
+        )
+
+    elif text == "بح":
+        members = await get_members(context, chat_id, user.id)
+        if not members:
+            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+            return
+        chosen = random.choice(members)
+        percentage = random.randint(0, 100)
+        for (low, high), comments in boh_comments.items():
+            if low <= percentage <= high:
+                comment = random.choice(comments)
+                break
+        await update.message.reply_text(
+            f"❤️ تقرير الحب الرسمي!\n\n"
+            f"{user_name} بح بـ {get_name(chosen)}\n\n"
             f"{'█' * (percentage // 10)}{'░' * (10 - percentage // 10)} {percentage}%\n\n"
             f"{comment}",
             parse_mode="Markdown"
