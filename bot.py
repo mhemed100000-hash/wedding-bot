@@ -72,6 +72,39 @@ win_comments = [
     "الفائز بالإجماع والخاسر بالإجماع كمان 😏",
 ]
 
+naswanji_comments = {
+    (90, 100): [
+        "يا زلمة هاد محترف! بيشتغل 24 ساعة بدون إجازة 😂",
+        "هاد ما بيتركها تمشي قبل ما ياخد رقمها وانستغرامها وسناباتها 😏",
+        "الأسطورة بنفسه! الكل بيتعلم منه 🏆",
+        "هاد خطر على الكروب كله، حذار منه 😂",
+    ],
+    (70, 89): [
+        "مو بطال! بس لازم يتدرب أكثر ليوصل للقمة 😂",
+        "هاد شاطر بس بده شغل أكثر على نفسه 😏",
+        "فوق المتوسط بكتير، الأهل خايفين منه 😅",
+        "بيحاول جاهداً وبيوصل أحياناً 😂",
+    ],
+    (50, 69): [
+        "متوسط متل الطالع والنازل، مرة بيحاول ومرة بيكسل 😅",
+        "نص نص، يعني موهبته موجودة بس كسلان 😏",
+        "ما هو سيء بس ما هو منيح، يعني عادي متل عادته 😂",
+        "بيحاول بس النتايج مخيبة للآمال 😅",
+    ],
+    (30, 49): [
+        "ضعيف الأداء، بده دورات تدريبية 😂",
+        "الناس ما بتلتفت عليه وهو مو عارف ليش 😏",
+        "بيحاول يكون نسونجي بس الدنيا مو معه 😅",
+        "أقل من المتوسط بكتير، يا حظه 😂",
+    ],
+    (0, 29): [
+        "هاد ما عنده أي موهبة بهالمجال خلص 😂",
+        "الناس بتهرب منه مو بتقرب 😏",
+        "يا أخي روح اشتغل بمجال ثاني 😂",
+        "صفر على الشمال، والأسوأ إنه مو مدري 😅",
+    ],
+}
+
 def get_name(user):
     return f"[{user.first_name}](tg://user?id={user.id})"
 
@@ -244,6 +277,27 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"🎲 {user_name} رمى النرد:\n\n"
             f"{faces[dice-1]}\n\n"
+            f"{comment}",
+            parse_mode="Markdown"
+        )
+
+    elif text == "نسونجي":
+        members = await get_members(context, chat_id)
+        if not members:
+            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+            return
+        chosen = random.choice(members)
+        percentage = random.randint(0, 100)
+
+        for (low, high), comments in naswanji_comments.items():
+            if low <= percentage <= high:
+                comment = random.choice(comments)
+                break
+
+        await update.message.reply_text(
+            f"💘 تقرير النسوانجية الرسمي!\n\n"
+            f"الشخص: {get_name(chosen)}\n\n"
+            f"{'█' * (percentage // 10)}{'░' * (10 - percentage // 10)} {percentage}%\n\n"
             f"{comment}",
             parse_mode="Markdown"
         )
