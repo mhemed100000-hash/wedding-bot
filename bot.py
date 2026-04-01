@@ -30,49 +30,46 @@ omar_lines = [
 ]
 
 titles = [
-    "ملك النوم في أوقات الدوام 😴",
-    "رئيس جمعية آكلي الشاورما 🌯",
-    "أكثر شخص يتظاهر إنه مشغول 📱",
-    "بطل التأخير الرسمي ⏰",
-    "المدير التنفيذي للكسل 🛋️",
-    "أمير الواتساب الأزرق اللي ما يرد 💬",
-    "حارس البطانية الرسمي 🛏️",
-    "نجم تيك توك في الحمام 🚿",
-    "رئيس لجنة التسويف والتأجيل 📅",
-    "الشخص الوحيد اللي ينام ويحلم بالنوم 💤",
-    "ملك الكروب 👑",
-    "نجم اليوم ⭐",
-    "بطل الكروب 🏆",
-    "الأذكى في الكروب 🧠",
-    "الأكثر ضحكاً 😂",
+    "أكبر نايم بالكروب وما عنده خبر 😴",
+    "بطل التفليس والديون 💸",
+    "رئيس جمعية الوجع والزعل 😤",
+    "أكثر واحد بيحكي وما بيعمل شي 🗣️",
+    "بطل الأكل وما بيدفع 🍔",
+    "أمير الكذب والتمثيل 🎭",
+    "الوحيد اللي بيقرأ رسائلك وما بيرد 📵",
+    "بطل الغياب بدون إشعار مسبق 👻",
+    "رئيس نادي الفاشلين الرسمي 🏆",
+    "أكثر واحد بيزعج وبيتظاهر إنه بريء 😇",
+    "سلطان الوقاحة والثقل 👑",
+    "الشخص اللي كل الكروب تعبان منه 😂",
 ]
 
 secrets = [
-    "يغني أغاني فيروز بالحمام وهو يتخيل إنه في حفلة 🎤",
-    "يكذب إنه مشغول وهو بس يتفرج على ريلز 📱",
-    "يطلب طلب كبير من المطعم ويقول بس لحالي مو كفاية 🍔",
-    "يضحك على نكتة بعد ساعة لما يفهمها 😂",
-    "يتمسخر على أصحابه وبعدين يقول مزحت والله 😅",
-    "يدخل الثلاجة كل خمس دقايق وهو عارف ما في شي جديد 🧊",
-    "يحط ألارمات كتير ويطفيهم كلهم 🔕",
-    "يقول آخر رسالة وبعدين يرسل عشرين رسالة 💬",
-    "يشتري شي ما يحتاجه بس كان عرض مغري 🛍️",
-    "ينسى اسم شخص قابله ألف مرة 😬",
-    "يتظاهر إنه مو جايع وبعدين يأكل أكثر من الكل 🍕",
-    "يحفظ أغاني ويغنيها بصوت عالي لما يكون لحاله 🎵",
+    "بيغني بالحمام وبيتخيل إنه نجم عالمي وهو بس صوته مثل القطط 🎤😂",
+    "بيكذب إنه مشغول وهو قاعد يتفرج على ريلز من الصبح 📱",
+    "بياكل أكل أصحابه ولما بيحكوه بيقول والله ما كنت جايع 🍕😏",
+    "بيحكي على كل الناس من وراهم وقدامهم بيضحك معهم 😂",
+    "بيحط ألارم الساعة 6 الصبح وبيطفيه وبينام لـ 12 😴",
+    "بيشتري أشياء ما بيحتاجها وبعدين بيزعل على غلاء المعيشة 🛍️",
+    "بيقول آخر رسالة وبعدين بيرسل روايات كاملة 💬😂",
+    "بينسى اسم الناس ولما بيسألوه بيقول يسلم هالوجه 😬",
+    "بيتظاهر إنه دايت وبعدين بياكل أكثر من الكل بالخفا 🍔",
+    "بيحكي إنه تعبان ومريض لما بده يتهرب من الشغل 🤒😂",
+    "بيكذب على أهله وين راح وبعدين بتطلع الحقيقة 😅",
+    "بيسأل السعر وبعدين بيقول بفكر فيه وما بيرجع أبداً 😂",
 ]
 
 win_comments = [
-    "فاز بضربة واحدة كأنه مدرب كاراتيه 🥋",
-    "الفائز بالقوة والكاريزما والشعر الجميل 💇",
-    "هزمه بنظرة واحدة بس 👁️",
-    "الفائز بالنقاط والمنطق والوجاهة 😎",
-    "تغلب عليه بسهولة كأنه يلعب مع نفسه 😂",
-    "الفائز بالذكاء الخارق والحظ المجنون 🧠",
-    "هزمه وهو نايم 😴",
-    "الفائز بالإجماع وبدون معارضة 🏆",
-    "فاز وهو مو مدري كيف 😂",
-    "الأقوى بلا منازع 💪",
+    "هزمه وهو نايم يا جماعة، يعني مو رجال من الأساس 😂",
+    "الفائز بالقوة والوجاهة والثاني راح يبكي على أمه 😭",
+    "نتيجة حاسمة، الخاسر يروح يغير مهنته 😂",
+    "الفائز بلا منازع والخاسر يستاهل أكثر 😏",
+    "هزمه بنظرة وحدة، يعني ما كان في مبارزة أصلاً 👁️",
+    "الفائز واضح من أول شوفة، والثاني ما كان عنده أمل 😂",
+    "هزمه وهو مو مدري شو صار، المسكين 😅",
+    "الأقوى بلا نقاش والثاني يروح يتدرب من جديد 💪",
+    "فاز فوزاً ساحقاً والخاسر يتمنى ما شارك 😂",
+    "الفائز بالإجماع والخاسر بالإجماع كمان 😏",
 ]
 
 def get_name(user):
@@ -129,20 +126,31 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "طلقني":
         if chat_id in weddings and user.id in weddings[chat_id]:
             partner_name = weddings[chat_id].pop(user.id)
-            await update.message.reply_text(
-                f"💔 تم الطلاق!\n\n"
-                f"{user_name} طلّق {partner_name}\n\n"
-                f"الله يعوض بالأحسن 😢",
-                parse_mode="Markdown"
-            )
+            responses = [
+                f"💔 يiii طلاق!\n\n{user_name} طلّق {partner_name}\n\nيسلم هالإيد اللي وقّعت 😂",
+                f"💔 انتهى الحفل!\n\n{user_name} رمى {partner_name} زبالة 🗑️\n\nالله يعوض بأحسن منك 😏",
+                f"💔 آخ آخ!\n\n{user_name} طلّق {partner_name}\n\nيا خسارة الفرح اللي دفعناه 😂",
+                f"💔 تفضيت!\n\n{user_name} خلص من {partner_name}\n\nما دام الراحة أهم 😅",
+            ]
+            await update.message.reply_text(random.choice(responses), parse_mode="Markdown")
         else:
-            await update.message.reply_text("❌ أنت مو متزوج أصلاً! 😄")
+            responses = [
+                "😂 يا زلمة أنت مو متزوج أصلاً، شو بدك تطلق؟",
+                "😏 وين العروس؟ اتزوج أول بعدين طلّق!",
+                "😂 ما عندك مرا تطلقها يا حظك!",
+            ]
+            await update.message.reply_text(random.choice(responses))
 
     elif text == "المتزوجون":
         if chat_id not in weddings or not weddings[chat_id]:
-            await update.message.reply_text("💔 ما في متزوجين بعد!")
+            responses = [
+                "😂 ما في حدا اتجرأ يتزوج بهالكروب، كلكم خايفين!",
+                "💔 كروب عوانس وعزاب، ما في متزوجين!",
+                "😏 ولا زوج ولا زوجة، كلكم لحالكم يا مساكين!",
+            ]
+            await update.message.reply_text(random.choice(responses))
             return
-        msg = "📜 سجل المتزوجين:\n\n"
+        msg = "📜 سجل المتزوجين اللي جرّبوا حظهم:\n\n"
         for i, (uid, partner) in enumerate(weddings[chat_id].items(), 1):
             msg += f"{i}. 💍 {partner}\n"
         await update.message.reply_text(msg, parse_mode="Markdown")
@@ -150,13 +158,13 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "حظي":
         luck = random.randint(0, 100)
         if luck >= 80:
-            comment = "يوم رائع ينتظرك! 🌟"
+            comment = "ما توقعنا هيك، بس تمتع لأنه مو كل يوم 😏"
         elif luck >= 50:
-            comment = "يوم عادي، بس ما يخيب الأمل 😊"
+            comment = "عادي متل عادتك، لا كتير ولا قليل 😑"
         elif luck >= 20:
-            comment = "خل تكون حذر اليوم 😅"
+            comment = "حظك زبالة اليوم، ابقى بالبيت وما تتحرك 😂"
         else:
-            comment = "ابقى بالبيت اليوم 😂"
+            comment = "والله يا حبيبي حظك أسوأ من حظنا فيك 😂"
         await update.message.reply_text(
             f"🍀 حظ {user_name} اليوم:\n\n"
             f"{'█' * (luck // 10)}{'░' * (10 - luck // 10)} {luck}%\n\n"
@@ -167,13 +175,20 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "القاضي":
         members = await get_members(context, chat_id)
         if not members:
-            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+            await update.message.reply_text("❌ أعطني صلاحية مشرف يا زلمة!")
             return
         chosen = random.choice(members)
         title = random.choice(titles)
+        intros = [
+            "القاضي حكم وما في استئناف 👨‍⚖️",
+            "الحكم صدر وكلمة الفصل قيلت 🔨",
+            "بعد تداول ومداولة وتفكير عميق 🤔",
+        ]
         await update.message.reply_text(
-            f"👨‍⚖️ القاضي يحكم:\n\n"
-            f"{get_name(chosen)} هو/هي {title} 🎉",
+            f"👨‍⚖️ {random.choice(intros)}:\n\n"
+            f"{get_name(chosen)}\n"
+            f"هو/هي {title}\n\n"
+            f"وهاد مو قابل للنقاش! 😂",
             parse_mode="Markdown"
         )
 
@@ -184,25 +199,33 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         chosen = random.choice(members)
         secret = random.choice(secrets)
+        intros = [
+            "وصلنا خبر من مصدر موثوق 🕵️",
+            "الاستخبارات كشفت سر خطير 😏",
+            "مصدر مجهول أفاد بما يلي 👀",
+        ]
         await update.message.reply_text(
-            f"😏 اعتراف خطير!\n\n"
+            f"😏 {random.choice(intros)}:\n\n"
             f"{user_name} يعترف إن {get_name(chosen)}\n"
-            f"{secret}",
+            f"{secret}\n\n"
+            f"وهاد موثق ومو قابل للنفي 😂",
             parse_mode="Markdown"
         )
 
     elif text == "من الأقوى":
         members = await get_members(context, chat_id)
         if len(members) < 2:
-            await update.message.reply_text("❌ ما في أعضاء كافيين!")
+            await update.message.reply_text("❌ ما في أعضاء كافيين للمبارزة!")
             return
         p1, p2 = random.sample(members, 2)
         winner = random.choice([p1, p2])
+        loser = p2 if winner == p1 else p1
         comment = random.choice(win_comments)
         await update.message.reply_text(
-            f"💪 مبارزة!\n\n"
-            f"{get_name(p1)} ⚔️ {get_name(p2)}\n\n"
+            f"⚔️ مبارزة بلا رحمة!\n\n"
+            f"{get_name(p1)} 🆚 {get_name(p2)}\n\n"
             f"🏆 الفائز: {get_name(winner)}\n"
+            f"💀 الخاسر: {get_name(loser)}\n\n"
             f"{comment}",
             parse_mode="Markdown"
         )
@@ -211,14 +234,17 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         dice = random.randint(1, 6)
         faces = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"]
         if dice == 6:
-            comment = "حظ رائع! 🎉"
+            comment = "6! يا زلمة حظك منيح اليوم، استغله قبل ما يروح 😂"
         elif dice >= 4:
-            comment = "مش بطال! 😊"
+            comment = "مش بطال، بس ما تفرح كتير 😏"
+        elif dice == 3:
+            comment = "3 يعني نص نص، متل حظك بالحياة 😅"
         else:
-            comment = "حاول مرة ثانية 😅"
+            comment = f"{dice} بس؟ يعني حظك أسوأ من توقعاتنا 😂"
         await update.message.reply_text(
             f"🎲 {user_name} رمى النرد:\n\n"
-            f"{faces[dice-1]} — {comment}",
+            f"{faces[dice-1]}\n\n"
+            f"{comment}",
             parse_mode="Markdown"
         )
 
