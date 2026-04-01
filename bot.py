@@ -21,6 +21,14 @@ poems = [
     "كل النجوم في السماء تحسدني لأنكِ اخترتِني",
 ]
 
+omardiaب_lines = [
+    "أنت عمري اللي ابتدى بيك، وبعدك عمري ما له معنى",
+    "حبيبي يا نور عيني، يا ساكن في قلبي وعقلي",
+    "تملّيني، وعنيكي في عيني، وروحك روحي",
+    "أنا عشقت وبقيت أعشق، وحبك يا حبيبي ما بيكفي",
+    "لو كانت الدنيا بإيدي، كنت هداهالك يا قلبي",
+]
+
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
     user = update.effective_user
@@ -37,7 +45,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             poem = random.choice(poems)
         elif user.id == HAMSI_ID:
             partner_name = "كاتي 👸"
-            poem = "أنا العبد الحمصي في خدمتك مولاتي 😄"
+            poem = random.choice(omardiaب_lines)
         else:
             try:
                 admins = await context.bot.get_chat_administrators(chat_id)
