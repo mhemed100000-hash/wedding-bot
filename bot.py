@@ -6,6 +6,7 @@ from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filte
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 OWNER_ID = 8541159331
 TOIII_ID = 8575179469
+HAMSI_ID = 1884302694
 
 weddings = {}
 
@@ -26,13 +27,17 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
 
     if text == "زوجني":
-        poem = random.choice(poems)
         user_name = f"@{user.username}" if user.username else user.first_name
 
         if user.id == OWNER_ID:
             partner_name = "Judy 👸"
+            poem = random.choice(poems)
         elif user.id == TOIII_ID:
             partner_name = "طارق 🤵"
+            poem = random.choice(poems)
+        elif user.id == HAMSI_ID:
+            partner_name = "كاتي 👸"
+            poem = "أنا العبد الحمصي في خدمتك مولاتي 😄"
         else:
             try:
                 admins = await context.bot.get_chat_administrators(chat_id)
@@ -42,6 +47,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     return
                 partner = random.choice(members)
                 partner_name = f"@{partner.username}" if partner.username else partner.first_name
+                poem = random.choice(poems)
             except:
                 await update.message.reply_text("❌ أعطني صلاحية مشرف!")
                 return
