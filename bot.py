@@ -9,6 +9,7 @@ TOIII_ID = 8575179469
 HAMSI_ID = 1884302694
 
 weddings = {}
+chat_members = {}
 
 poems = [
     "يا من سكنتِ الروح قبل اللقاء، كنتِ القصيدة قبل أن أعرف الكلام",
@@ -173,21 +174,28 @@ def get_name(user):
 def get_plain_name(user):
     return user.first_name
 
-async def get_members(context, chat_id, exclude_id=None):
-    try:
-        admins = await context.bot.get_chat_administrators(chat_id)
-        members = [m.user for m in admins if not m.user.is_bot]
-        if exclude_id:
-            members = [m for m in members if m.id != exclude_id]
-        return members
-    except:
-        return []
+def save_member(chat_id, user):
+    if user.is_bot:
+        return
+    if chat_id not in chat_members:
+        chat_members[chat_id] = {}
+    chat_members[chat_id][user.id] = user
+
+def get_random_member(chat_id, exclude_id=None):
+    if chat_id not in chat_members:
+        return None
+    members = [u for uid, u in chat_members[chat_id].items() if uid != exclude_id]
+    if not members:
+        return None
+    return random.choice(members)
 
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
     user = update.effective_user
     chat_id = update.effective_chat.id
     user_name = get_name(user)
+
+    save_member(chat_id, user)
 
     if text == "زوجني":
         if user.id == OWNER_ID:
@@ -200,11 +208,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             partner_name = "كاتي 👸"
             poem = random.choice(omar_lines)
         else:
-            members = await get_members(context, chat_id, user.id)
-            if not members:
-                await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+            partner = get_random_member(chat_id, user.id)
+            if not partner:
+                await update.message.reply_text("😂 ما في أعضاء كافيين بعد، خلي الناس تحكي بالكروب أول!")
                 return
-            partner = random.choice(members)
             partner_name = get_plain_name(partner)
             poem = random.choice(poems)
 
@@ -271,11 +278,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif text == "القاضي":
-        members = await get_members(context, chat_id)
-        if not members:
-            await update.message.reply_text("❌ أعطني صلاحية مشرف يا زلمة!")
+        chosen = get_random_member(chat_id)
+        if not chosen:
+            await update.message.reply_text("😂 ما في أعضاء كافيين بعد!")
             return
-        chosen = random.choice(members)
         title = random.choice(titles)
         intros = [
             "القاضي حكم وما في استئناف 👨‍⚖️",
@@ -291,11 +297,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif text == "اعترف":
-        members = await get_members(context, chat_id, user.id)
-        if not members:
-            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+        chosen = get_random_member(chat_id, user.id)
+        if not chosen:
+            await update.message.reply_text("😂 ما في أعضاء كافيين بعد!")
             return
-        chosen = random.choice(members)
         secret = random.choice(secrets)
         intros = [
             "وصلنا خبر من مصدر موثوق 🕵️",
@@ -311,10 +316,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif text == "من الأقوى":
-        members = await get_members(context, chat_id)
-        if len(members) < 2:
-            await update.message.reply_text("❌ ما في أعضاء كافيين للمبارزة!")
+        if chat_id not in chat_members or len(chat_members[chat_id]) < 2:
+            await update.message.reply_text("😂 ما في أعضاء كافيين بعد!")
             return
+        members = list(chat_members[chat_id].values())
         p1, p2 = random.sample(members, 2)
         winner = random.choice([p1, p2])
         loser = p2 if winner == p1 else p1
@@ -347,11 +352,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif text == "نسونجي":
-        members = await get_members(context, chat_id)
-        if not members:
-            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+        chosen = get_random_member(chat_id)
+        if not chosen:
+            await update.message.reply_text("😂 ما في أعضاء كافيين بعد!")
             return
-        chosen = random.choice(members)
         percentage = random.randint(0, 100)
         for (low, high), comments in naswanji_comments.items():
             if low <= percentage <= high:
@@ -366,11 +370,10 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif text == "بح":
-        members = await get_members(context, chat_id, user.id)
-        if not members:
-            await update.message.reply_text("❌ أعطني صلاحية مشرف!")
+        chosen = get_random_member(chat_id, user.id)
+        if not chosen:
+            await update.message.reply_text("😂 ما في أعضاء كافيين بعد!")
             return
-        chosen = random.choice(members)
         percentage = random.randint(0, 100)
         for (low, high), comments in boh_comments.items():
             if low <= percentage <= high:
