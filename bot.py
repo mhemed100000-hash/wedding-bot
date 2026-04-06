@@ -526,7 +526,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text(f"❌ لا يوجد ذهب كافٍ!\nتحتاج: 💰5,000\nرصيدك: 💰{country.get('ذهب', 0):,}", reply_markup=back_markets_kb)
             return
         country["ذهب"] -= 5000
-        country["حماية حتى"] = time.time() + 43200
+        country["حماية حتى"] = time.time() + 3600
         save_country(country)
         await query.edit_message_text("🛡️ *تم شراء الحماية!*\n\nأنت محمي لمدة 12 ساعة! 💪", parse_mode="Markdown", reply_markup=back_main_kb)
         return
@@ -763,7 +763,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await reply(f"❌ لا يوجد ذهب كافٍ!\nتحتاج: 💰5,000\nرصيدك: 💰{country.get('ذهب', 0):,}")
                 return
             country["ذهب"] -= 5000
-            country["حماية حتى"] = time.time() + 43200
+            country["حماية حتى"] = time.time() + 3600
             save_country(country)
             await reply("🛡️ *تم شراء الحماية!*\nأنت محمي لمدة 12 ساعة! 💪", main_menu_keyboard())
             return
@@ -1345,7 +1345,11 @@ async def new_attack(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     attack -= int(get_air_defense_bonus(target) * 0.3)
 
-    if "قنبلة نووية" in attacker.get("وحدات", {}):
+    if  "قنبلة نووية" in attacker.get("وحدات", {}):
+        last_nuke = attacker.get("last_nuke", 0)
+        if time.time() - last_nuke < 21600:
+            return
+        attacker["last_nuke"] = time.time():
         if not nuclear_attack_success(target):
             await update.message.reply_text("☢️ تم صد النووي")
             return
@@ -1374,3 +1378,26 @@ async def new_attack(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ADD HANDLER
 application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, new_attack))
+
+
+# ===== NEW UNITS =====
+UNITS.update({
+    "BMPT Terminator": {"قوة": 55, "سعر": 2200, "نوع": "مدرعات"},
+    "Bradley": {"قوة": 40, "سعر": 1500, "نوع": "مدرعات"},
+    "Type 99": {"قوة": 65, "سعر": 2300, "نوع": "مدرعات"},
+
+    "MLRS": {"قوة": 35, "سعر": 1200, "نوع": "صواريخ"},
+    "Iskander-M": {"قوة": 85, "سعر": 5000, "نوع": "صواريخ"},
+
+    "A-10 Warthog": {"قوة": 65, "سعر": 4500, "نوع": "جوي"},
+    "Su-57": {"قوة": 95, "سعر": 11000, "نوع": "جوي"},
+    "F-15": {"قوة": 70, "سعر": 5500, "نوع": "جوي"},
+
+    "Stinger": {"قوة": 15, "سعر": 800, "نوع": "دفاع"},
+    "NASAMS": {"قوة": 60, "سعر": 5000, "نوع": "دفاع"},
+    "S-300": {"قوة": 80, "سعر": 8500, "نوع": "دفاع"},
+    "S-400": {"قوة": 110, "سعر": 12000, "نوع": "دفاع"},
+    "THAAD": {"قوة": 130, "سعر": 18000, "نوع": "دفاع"},
+    "Arrow 3": {"قوة": 150, "سعر": 22000, "نوع": "دفاع"},
+    "S-500": {"قوة": 180, "سعر": 30000, "نوع": "دفاع"},
+})
