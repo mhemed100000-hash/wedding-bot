@@ -16,7 +16,7 @@ countries_col = db["countries"]   # بدون chat_id — عالمية
 alliances_col = db["alliances"]   # مع chat_id — داخلية
 votes_col = db["votes"]
 
-# ===== قاعدة البيانات =====
+# ===== قاعدة البيانات (آمنة تماماً ولا تحذف البيانات) =====
 def load_country(user_id):
     return countries_col.find_one({"user_id": user_id})
 
@@ -44,7 +44,7 @@ def save_alliance(alliance):
 def get_country_alliance(chat_id, country_name):
     return alliances_col.find_one({"chat_id": chat_id, "أعضاء": country_name})
 
-# ===== البيانات =====
+# ===== البيانات الأساسية =====
 UNITS = {
     "جندي": {"قوة": 5, "سعر": 50, "نوع": "مشاة"},
     "مقاتل": {"قوة": 12, "سعر": 150, "نوع": "مشاة"},
@@ -220,18 +220,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"⚔️ *Throne of Shadows* ⚔️\n\n"
             f"🌍 *دولتك عالمية!*\n"
             f"نفس الدولة في كل الكروبات!\n\n"
-            f"🔥 *مميزات اللعبة:*\n"
-            f"• 🪖 أكثر من 30 وحدة عسكرية\n"
-            f"• ✈️ سلاح جوي من F-16 حتى B-52\n"
-            f"• ☢️ أسلحة نووية مدمرة\n"
-            f"• 🤝 تحالفات بجيش مشترك\n"
-            f"• 🔥 حروب تحالف ضد تحالف\n"
-            f"• 🛡️ دفاع تلقائي جماعي\n"
-            f"• 🏦 بنك واستثمارات حتى 200%\n"
-            f"• 💰 إرسال ذهب بين الحلفاء\n\n"
-            f"━━━━━━━━━━━━━━━\n"
-            f"➕ *أضفني لكروبك واستمتعوا بالحرب!* 🔥\n"
-            f"━━━━━━━━━━━━━━━\n\n"
             f"👇 استكشف اللعبة:",
             parse_mode="Markdown",
             reply_markup=private_menu_keyboard()
@@ -292,16 +280,11 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "how_to_play":
         await query.edit_message_text(
             "📖 *كيف تلعب عرش الظلال؟*\n━━━━━━━━━━━━━━━\n\n"
-            "1️⃣ *أضف البوت لمجموعتك كمشرف*\n\n"
-            "2️⃣ *أنشئ دولتك:*\n`انشاء دولة [الاسم]`\n"
-            "🌍 دولتك ستظهر في كل الكروبات!\n\n"
-            "3️⃣ *اختر أيديولوجيتك:*\n`اختر نظام [شيوعي/رأسمالي/ديكتاتوري/ملكي]`\n\n"
-            "4️⃣ *ابنِ اقتصادك:*\n`بناء حقل نفط` 🛢️\n\n"
-            "5️⃣ *جهّز جيشك:*\n`اشتري F-16 5` ✈️\n\n"
-            "6️⃣ *استثمر في البنك:*\n`استثمار مالي` 🏦\n\n"
-            "7️⃣ *هاجم الدول:*\n`هاجم [اسم الدولة]` ⚔️\n\n"
-            "8️⃣ *انضم لتحالف:*\n`انضم تحالف [الاسم]` 🤝\n\n"
-            "━━━━━━━━━━━━━━━\n🏆 *الهدف:* كن القوة العظمى!",
+            "1️⃣ *أنشئ دولتك:*\n`انشاء دولة [الاسم]`\n\n"
+            "2️⃣ *ابنِ اقتصادك:*\n`بناء حقل نفط` 🛢️\n\n"
+            "3️⃣ *استثمر في البنك:*\n`استثمار مالي` 🏦\n\n"
+            "4️⃣ *هاجم الدول:*\n`هاجم [اسم الدولة]` ⚔️\n\n"
+            "5️⃣ *التحالفات:*\n`انشاء تحالف [الاسم]` 🤝",
             parse_mode="Markdown", reply_markup=back_private_kb
         )
         return
@@ -309,30 +292,15 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "all_commands":
         await query.edit_message_text(
             "⚔️ *الأوامر الكاملة*\n━━━━━━━━━━━━━━━\n\n"
-            "🏳️ *البداية:*\n"
-            "`انشاء دولة [الاسم]`\n"
-            "`اختر نظام [الاسم]`\n"
-            "`تغيير اسم [الاسم الجديد]`\n\n"
-            "📊 *المعلومات:*\n"
-            "`دولتي` | `خزينتي` | `مهماتي` | `ترتيب`\n\n"
-            "🛒 *الشراء:*\n"
-            "`اشتري [الوحدة] [العدد]`\n"
-            "`بناء [المبنى]`\n"
-            "`اشتري حماية`\n\n"
-            "🏦 *البنك:*\n"
-            "`استثمار مالي` — يستثمر كل نقودك\n\n"
-            "⚔️ *الحرب:*\n"
-            "`هاجم [اسم الدولة]`\n"
-            "`هجوم تحالف [اسم الدولة/التحالف]`\n"
-            "`اطلق صاروخ [النوع] على [الدولة]`\n\n"
-            "🤝 *التحالفات (داخل الكروب):*\n"
-            "`انشاء تحالف [الاسم]`\n"
-            "`انضم تحالف [الاسم]`\n"
-            "`جيش تحالفي`\n"
-            "`ارسل ذهب [اسم الدولة] [المبلغ]`\n"
-            "`اغادر التحالف`\n\n"
-            "🕵️ *الاستخبارات:*\n"
-            "`جاسوس [اسم الدولة]`",
+            "🏳️ `انشاء دولة [الاسم]`\n"
+            "🛒 `اشتري [الوحدة] [العدد]`\n"
+            "🏗️ `بناء [المبنى]`\n"
+            "🏦 `استثمار مالي` (كل 10 دقائق)\n"
+            "⚔️ `هاجم [اسم الدولة]`\n"
+            "🔥 `هجوم تحالف [الهدف]`\n"
+            "🤝 `انشاء تحالف [الاسم]`\n"
+            "🎖️ `ترقية [اسم الدولة] [الرتبة]` (للقائد الأعلى)\n\n"
+            "والكثير من الأوامر عبر الأزرار!",
             parse_mode="Markdown", reply_markup=back_private_kb
         )
         return
@@ -341,7 +309,6 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         msg = "🏛️ *الأيديولوجيات المتاحة*\n━━━━━━━━━━━━━━━\n\n"
         for name, d in IDEOLOGIES.items():
             msg += f"{d['رمز']} *{name}*\n{d['وصف']}\n\n"
-        msg += "━━━━━━━━━━━━━━━\n`اختر نظام [الاسم]`"
         await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=back_private_kb)
         return
 
@@ -349,21 +316,11 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         msg = "🏗️ *المباني وفوائدها*\n━━━━━━━━━━━━━━━\n\n"
         for name, d in BUILDINGS.items():
             msg += f"• *{name}*\n  {d['وصف']} | 💰{d['سعر']:,}\n\n"
-        msg += "━━━━━━━━━━━━━━━\n`بناء [اسم المبنى]`"
         await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=back_private_kb)
         return
 
     if data == "weapons_info":
-        msg = (
-            "🚀 *أنواع الأسلحة*\n━━━━━━━━━━━━━━━\n\n"
-            "🪖 *المشاة:* جندي، مقاتل، قناص، كوماندوز، قوات خاصة، فرقة النخبة\n\n"
-            "🚗 *المدرعات:* جيب مسلح، BTR، T-72، T-90، Abrams، Leopard، Merkava، AS-21\n\n"
-            "✈️ *الجو:* مسيّرة، Apache، MiG-29، F-16، Su-35، F-22، F-35، B-2، B-52\n\n"
-            "🚀 *الصواريخ:* Grad، كروز، Scud، باتريوت، Iskander، Tomahawk، ICBM\n\n"
-            "☢️ *النووي:* كيميائي، نووي تكتيكي، قنبلة نووية\n"
-            "_⚠️ تحتاج منشأة نووية أولاً_\n\n"
-            "━━━━━━━━━━━━━━━\n`اشتري [الوحدة] [العدد]`"
-        )
+        msg = "🚀 *أسلحة ووحدات جيشك تزيد من قوتك الهجومية والدفاعية* ⚔️"
         await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=back_private_kb)
         return
 
@@ -371,26 +328,21 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(
             "🏦 *نظام البنك والاستثمار*\n━━━━━━━━━━━━━━━\n\n"
             "💡 *كيف يعمل؟*\n"
-            "استثمر كل نقودك دفعة واحدة كل ساعة!\n\n"
+            "استثمر كل نقودك دفعة واحدة كل 10 دقائق!\n\n"
             "📌 *الأمر:*\n`استثمار مالي`\n\n"
-            "⚡ نسبة الربح: 50% حتى 200% عشوائياً!\n\n"
-            "━━━━━━━━━━━━━━━\n"
-            "💰 كلما كان رصيدك أكبر، ربحت أكثر!",
+            "⚡ نسبة الربح: *مضمونة من 50% إلى 200%*\nلا يوجد خسارة أبداً!",
             parse_mode="Markdown", reply_markup=back_private_kb
         )
         return
 
     if data == "alliance_info":
         await query.edit_message_text(
-            "🤝 *نظام التحالفات*\n━━━━━━━━━━━━━━━\n\n"
-            "⚠️ *التحالفات داخل كل كروب منفصلة*\n\n"
-            "👑 *إنشاء تحالف:*\n`انشاء تحالف [الاسم]`\n\n"
-            "➕ *الانضمام:*\n`انضم تحالف [الاسم]`\n\n"
-            "⚔️ *هجوم جماعي:*\n`هجوم تحالف [الهدف]`\n"
-            "القائد والجنرالات يصوتون!\n\n"
-            "🛡️ *الدفاع تلقائي* عند مهاجمة أي عضو!\n\n"
-            "💰 *إرسال ذهب:*\n`ارسل ذهب [اسم الدولة] [المبلغ]`\n\n"
-            "🚪 *المغادرة:*\n`اغادر التحالف`",
+            "🤝 *نظام التحالفات والرتب*\n━━━━━━━━━━━━━━━\n\n"
+            "👑 *القائد الأعلى:* يملك كافة الصلاحيات.\n"
+            "⭐ *جنرال:* يقود الحروب.\n"
+            "🎖️ *عميد:* ضابط في التحالف.\n"
+            "🪖 *جندي:* عضو أساسي يشارك بالجيش.\n\n"
+            "📌 لمنح الرتبة (للقائد فقط):\n`ترقية [اسم الدولة] [الرتبة]`",
             parse_mode="Markdown", reply_markup=back_private_kb
         )
         return
@@ -453,17 +405,16 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         save_country(country)
         income = calc_income(country)
         last_invest = country.get("آخر استثمار", 0)
-        time_left = max(0, 3600 - (time.time() - last_invest))
+        time_left = max(0, 600 - (time.time() - last_invest))
         invest_status = "✅ جاهز!" if time_left == 0 else f"⏳ بعد {int(time_left/60)} دقيقة"
         await query.edit_message_text(
             f"💰 *خزينة {country['اسم']}*\n"
             f"━━━━━━━━━━━━━━━\n"
             f"💎 الذهب: *{country.get('ذهب', 0):,}*\n"
             f"🏦 أرباح البنك: *{country.get('بنك', 0):,}*\n"
-            f"📈 الدخل/ساعة: *+{income}*\n"
-            f"📊 الدخل اليومي: *+{income * 24}*\n\n"
+            f"📈 الدخل/ساعة: *+{income}*\n\n"
             f"🏦 حالة الاستثمار: {invest_status}\n"
-            f"💡 `استثمار مالي` لاستثمار كل نقودك!",
+            f"💡 `استثمار مالي` لاستثمار ذهبك!",
             parse_mode="Markdown", reply_markup=back_main_kb
         )
         return
@@ -476,7 +427,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         country = update_resources(country)
         save_country(country)
         last_invest = country.get("آخر استثمار", 0)
-        time_left = max(0, 3600 - (time.time() - last_invest))
+        time_left = max(0, 600 - (time.time() - last_invest))
         status = "✅ جاهز للاستثمار!" if time_left == 0 else f"⏳ متاح بعد {int(time_left/60)} دقيقة و{int(time_left%60)} ثانية"
         await query.edit_message_text(
             f"🏦 *بنك {country['اسم']}*\n"
@@ -485,7 +436,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"🏦 إجمالي الأرباح: *{country.get('بنك', 0):,}*\n\n"
             f"📊 *حالة الاستثمار:*\n{status}\n\n"
             f"💡 *الأمر:* `استثمار مالي`\n\n"
-            f"⚡ نسبة الربح: 50% حتى 200% عشوائياً!",
+            f"⚡ نسبة الربح مضمونة 100%: تضاف أرباح بين 50% إلى 200%!",
             parse_mode="Markdown", reply_markup=back_main_kb
         )
         return
@@ -606,8 +557,6 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "اكتب: `هاجم [اسم الدولة]`\n\n"
             "🌍 يمكنك مهاجمة أي دولة في أي كروب!\n\n"
             "⚠️ *ملاحظات:*\n"
-            "• لا يمكن مهاجمة الدول المحمية 🛡️\n"
-            "• إذا كان المدافع في تحالف يدافع الكل!\n"
             "• الفائز يأخذ 30% من ذهب الخاسر 💰",
             parse_mode="Markdown", reply_markup=back_war_kb
         )
@@ -618,7 +567,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "🔥 *هجوم التحالف*\n━━━━━━━━━━━━━━━\n\n"
             "اكتب: `هجوم تحالف [الهدف]`\n\n"
             "📌 *آلية التصويت:*\n"
-            "• القائد والجنرالات يصوتون ✅ أو ❌\n"
+            "• القائد الأعلى والجنرالات فقط من يصوتون ✅ أو ❌\n"
             "• إذا وافق الأغلبية يتم الهجوم\n"
             "• مدة التصويت 5 دقائق\n\n"
             "⚡ *القوة = مجموع جيوش كل الأعضاء*",
@@ -661,16 +610,26 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if m:
                 p = calc_power(m.get("وحدات", {}))
                 total_power += p
-                role = "👑" if m_name == alliance.get("قائد") else "⭐" if m_name in alliance.get("جنرالات", []) else "🪖"
-                members_text += f"  {role} {m_name} — ⚔️{p:,}\n"
+                # تحديد الرتبة بناءً على المجموعات
+                if m_name == alliance.get("قائد"):
+                    role = "👑 القائد الأعلى"
+                elif m_name in alliance.get("جنرالات", []):
+                    role = "⭐ جنرال"
+                elif m_name in alliance.get("عمداء", []):
+                    role = "🎖️ عميد"
+                else:
+                    role = "🪖 جندي"
+                members_text += f"  {role} | {m_name} — ⚔️{p:,}\n"
         await query.edit_message_text(
             f"🤝 *تحالف {alliance['اسم']}*\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"👑 القائد: {alliance.get('قائد', 'غير محدد')}\n"
+            f"👑 القائد الأعلى: {alliance.get('قائد', 'غير محدد')}\n"
             f"👥 الأعضاء: {len(alliance.get('أعضاء', []))}\n"
             f"⚔️ القوة الإجمالية: {total_power:,}\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"🪖 *الأعضاء:*\n{members_text}",
+            f"🪖 *الأعضاء والرتب:*\n{members_text}\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"💡 للترقية (للقائد فقط):\n`ترقية [الاسم] [الرتبة]`",
             parse_mode="Markdown", reply_markup=back_alliance_kb
         )
         return
@@ -720,8 +679,9 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not alliance or alliance["اسم"] != vote["alliance"]:
             await query.answer("❌ لست في هذا التحالف!", show_alert=True)
             return
+        # حصر التصويت بالقائد الأعلى والجنرالات فقط
         if country["اسم"] != alliance.get("قائد") and country["اسم"] not in alliance.get("جنرالات", []):
-            await query.answer("❌ فقط القائد والجنرالات يصوتون!", show_alert=True)
+            await query.answer("❌ التصويت مسموح للقائد الأعلى والجنرالات فقط!", show_alert=True)
             return
         if country["اسم"] in vote.get("صوّت", []):
             await query.answer("✅ لقد صوّتت بالفعل!", show_alert=True)
@@ -730,7 +690,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         votes_col.update_one({"vote_id": vote_id}, {
             "$push": {"صوّت": country["اسم"], update_field: country["اسم"]}
         })
-        await query.answer(f"✅ تم تسجيل صوتك {'✅' if vote_type == 'yes' else '❌'}!")
+        await query.answer(f"✅ تم تسجيل صوتك كقائد عسكري!")
         return
 
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -790,56 +750,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"👇 استخدم الأزرار للتنقل:",
             main_menu_keyboard()
         )
-        return
-
-    if text.startswith("تغيير اسم "):
-        parts = text.split(" ", 2)
-        new_name = parts[2].strip() if len(parts) > 2 else ""
-        if not new_name:
-            await reply("❌ اكتب الاسم الجديد!")
-            return
-        country = load_country(user.id)
-        if not country:
-            await reply("❌ ليس لديك دولة!")
-            return
-        if get_country_by_name(new_name):
-            await reply("❌ هذا الاسم مأخوذ!")
-            return
-        old_name = country["اسم"]
-        # تحديث الاسم في كل التحالفات
-        for alliance in alliances_col.find({"أعضاء": old_name}):
-            members = alliance.get("أعضاء", [])
-            if old_name in members:
-                members[members.index(old_name)] = new_name
-            if alliance.get("قائد") == old_name:
-                alliance["قائد"] = new_name
-            generals = alliance.get("جنرالات", [])
-            if old_name in generals:
-                generals[generals.index(old_name)] = new_name
-            alliance["أعضاء"] = members
-            alliance["جنرالات"] = generals
-            save_alliance(alliance)
-        country["اسم"] = new_name
-        save_country(country)
-        await reply(f"✅ *تم تغيير اسم دولتك!*\n\n🏳️ الاسم الجديد: *{new_name}*", main_menu_keyboard())
-        return
-
-    if text.startswith("اختر نظام "):
-        parts = text.split(" ", 2)
-        ideology = parts[2].strip() if len(parts) > 2 else ""
-        country = load_country(user.id)
-        if not country:
-            await reply("❌ ليس لديك دولة!")
-            return
-        if ideology not in IDEOLOGIES:
-            msg = "❌ الأيديولوجيات:\n\n"
-            for name, d in IDEOLOGIES.items():
-                msg += f"{d['رمز']} *{name}*\n{d['وصف']}\n\n"
-            await reply(msg)
-            return
-        country["نظام"] = ideology
-        save_country(country)
-        await reply(f"✅ تم اختيار *{ideology}* {IDEOLOGIES[ideology]['رمز']}\n\n{IDEOLOGIES[ideology]['وصف']}", main_menu_keyboard())
         return
 
     if text.startswith("اشتري "):
@@ -915,31 +825,37 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         country = update_resources(country)
         now = time.time()
-        time_left = 3600 - (now - country.get("آخر استثمار", 0))
+        
+        # التعديل: الاستثمار كل 10 دقائق (600 ثانية)
+        time_left = 600 - (now - country.get("آخر استثمار", 0))
         if time_left > 0:
-            await reply(f"⏳ انتظر {int(time_left/60)} دقيقة و{int(time_left%60)} ثانية 🕐")
+            await reply(f"⏳ انتظر {int(time_left/60)} دقيقة و{int(time_left%60)} ثانية للاستثمار مجدداً 🕐")
             return
+            
         amount = country.get("ذهب", 0)
         if amount <= 0:
             await reply("❌ ليس لديك ذهب للاستثمار!")
             return
-        rate = random.uniform(0.50, 2.00)
-        profit = int(amount * rate)
-        country["ذهب"] = profit
-        country["بنك"] = country.get("بنك", 0) + (profit - amount)
+            
+        # التعديل: ربح مضمون 100% بين 50% إلى 200% من المبلغ المستثمر
+        rate = random.uniform(0.50, 2.00) 
+        profit_amount = int(amount * rate)
+        
+        # إضافة الربح الصافي للرصيد دون المساس برأس المال (لا توجد خسارة أبداً)
+        country["ذهب"] += profit_amount
+        country["بنك"] = country.get("بنك", 0) + profit_amount
         country["آخر استثمار"] = now
         save_country(country)
+        
         rate_percent = int(rate * 100)
-        emoji = "🚀" if rate_percent >= 150 else "📈" if rate_percent >= 100 else "📊"
         await reply(
-            f"🏦 *نتيجة الاستثمار المالي!*\n"
+            f"🏦 *نتائج الاستثمار المالي المضمون!*\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"💰 المبلغ المستثمر: {amount:,}\n"
-            f"{emoji} نسبة الربح: *{rate_percent}%*\n"
-            f"💎 العائد: *{profit:,} ذهب*\n"
-            f"📈 الربح الصافي: *+{profit - amount:,}*\n\n"
-            f"💰 رصيدك الآن: {country['ذهب']:,}\n\n"
-            f"⏰ الاستثمار القادم بعد ساعة!",
+            f"💰 رأس المال المستثمر: {amount:,}\n"
+            f"📈 نسبة الربح الصافية: *+{rate_percent}%*\n"
+            f"💎 الأرباح المضافة: *+{profit_amount:,} ذهب*\n\n"
+            f"💰 رصيدك الكلي الآن: *{country['ذهب']:,}*\n\n"
+            f"⏰ الاستثمار القادم متاح بعد 10 دقائق!",
             main_menu_keyboard()
         )
         return
@@ -1017,6 +933,89 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         return
 
+    if text.startswith("انشاء تحالف "):
+        parts = text.split(" ", 2)
+        alliance_name = parts[2].strip() if len(parts) > 2 else ""
+        country = load_country(user.id)
+        if not country:
+            await reply("❌ ليس لديك دولة!")
+            return
+        if get_country_alliance(chat_id, country["اسم"]):
+            await reply("❌ أنت في تحالف بالفعل!")
+            return
+        if load_alliance(chat_id, alliance_name):
+            await reply("❌ هذا الاسم مأخوذ!")
+            return
+        new_alliance = {
+            "chat_id": chat_id, "اسم": alliance_name,
+            "قائد": country["اسم"], # في الواجهة سيُكتب "القائد الأعلى"
+            "جنرالات": [],
+            "عمداء": [], # مصفوفة جديدة لعدم فقدان البيانات السابقة
+            "أعضاء": [country["اسم"]],
+        }
+        save_alliance(new_alliance)
+        await reply(
+            f"🤝 *تم إنشاء التحالف!*\n\n"
+            f"⚔️ اسم التحالف: *{alliance_name}*\n"
+            f"👑 القائد الأعلى: *{country['اسم']}*\n\n"
+            f"للانضمام: `انضم تحالف {alliance_name}`",
+            main_menu_keyboard()
+        )
+        return
+
+    if text.startswith("ترقية "):
+        parts = text.split(" ", 2)
+        if len(parts) < 3:
+            await reply("❌ الاستخدام الصحيح: `ترقية [اسم الدولة] [الرتبة]`\nالرتب المتاحة: (جنرال، عميد، جندي)")
+            return
+        target_name = parts[1].strip()
+        new_rank = parts[2].strip()
+        country = load_country(user.id)
+        
+        if not country:
+            await reply("❌ ليس لديك دولة!")
+            return
+            
+        alliance = get_country_alliance(chat_id, country["اسم"])
+        if not alliance:
+            await reply("❌ أنت لست في تحالف!")
+            return
+            
+        # فقط القائد الأعلى (مؤسس التحالف) يمكنه الترقية
+        if country["اسم"] != alliance.get("قائد"):
+            await reply("🚫 عذراً، فقط *القائد الأعلى* يمكنه منح الرتب!")
+            return
+            
+        if new_rank not in ["جنرال", "عميد", "جندي"]:
+            await reply("❌ الرتب المتاحة فقط هي: (جنرال، عميد، جندي)")
+            return
+            
+        if target_name not in alliance.get("أعضاء", []):
+            await reply(f"❌ الدولة `{target_name}` ليست عضواً في تحالفك!")
+            return
+            
+        if target_name == alliance.get("قائد"):
+            await reply("❌ لا يمكنك تغيير رتبة القائد الأعلى!")
+            return
+
+        # إزالة العضو من الرتب السابقة
+        if target_name in alliance.get("جنرالات", []):
+            alliance["جنرالات"].remove(target_name)
+        if target_name in alliance.get("عمداء", []):
+            alliance["عمداء"].remove(target_name)
+
+        # إضافة العضو للرتبة الجديدة
+        if new_rank == "جنرال":
+            if "جنرالات" not in alliance: alliance["جنرالات"] = []
+            alliance["جنرالات"].append(target_name)
+        elif new_rank == "عميد":
+            if "عمداء" not in alliance: alliance["عمداء"] = []
+            alliance["عمداء"].append(target_name)
+            
+        save_alliance(alliance)
+        await reply(f"🎖️ تم ترقية الدولة *{target_name}* بنجاح إلى رتبة: *{new_rank}*!", main_menu_keyboard())
+        return
+
     if text.startswith("هجوم تحالف "):
         parts = text.split(" ", 2)
         target_name = parts[2].strip() if len(parts) > 2 else ""
@@ -1028,9 +1027,12 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not attacker_alliance:
             await reply("❌ أنت لست في أي تحالف في هذا الكروب!")
             return
+        
+        # التعديل: القائد الأعلى والجنرالات فقط من يطلبون هجوم تحالف
         if attacker_country["اسم"] != attacker_alliance.get("قائد") and attacker_country["اسم"] not in attacker_alliance.get("جنرالات", []):
-            await reply("❌ فقط القائد والجنرالات يمكنهم طلب هجوم التحالف!")
+            await reply("🚫 *القائد الأعلى والجنرالات فقط* يمكنهم طلب وتفعيل هجوم التحالف!")
             return
+            
         vote_id = str(uuid.uuid4())[:8]
         vote_doc = {
             "vote_id": vote_id, "chat_id": chat_id,
@@ -1048,88 +1050,18 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("🗑️ حذف", callback_data="del_self")]
         ])
         await reply(
-            f"🔥 *طلب هجوم تحالف!*\n━━━━━━━━━━━━━━━\n"
+            f"🔥 *طلب هجوم تحالف عسكري!*\n━━━━━━━━━━━━━━━\n"
             f"⚔️ التحالف: *{attacker_alliance['اسم']}*\n"
             f"🎯 الهدف: *{target_name}*\n"
             f"📢 طالب الهجوم: *{attacker_country['اسم']}*\n\n"
-            f"👑 يصوت: {leaders_text}\n\n"
-            f"⏰ مدة التصويت: 5 دقائق\n👇 صوّت الآن:",
+            f"👑 المصوتون (القيادة العليا): {leaders_text}\n\n"
+            f"⏰ مدة التصويت: 5 دقائق\n👇 يرجى من القيادة التصويت الآن:",
             vote_keyboard
         )
         context.job_queue.run_once(
             execute_alliance_attack, 300,
             data={"vote_id": vote_id, "chat_id": chat_id, "target": target_name, "alliance_name": attacker_alliance["اسم"]},
             name=f"vote_{vote_id}"
-        )
-        return
-
-    if text.startswith("اطلق صاروخ "):
-        rest = text.split(" ", 2)[2] if len(text.split(" ", 2)) > 2 else ""
-        parts = rest.split(" على ")
-        if len(parts) != 2:
-            await reply("❌ `اطلق صاروخ [النوع] على [اسم الدولة]`")
-            return
-        missile_name, target_name = parts[0].strip(), parts[1].strip()
-        attacker = load_country(user.id)
-        if not attacker:
-            await reply("❌ ليس لديك دولة!")
-            return
-        if attacker.get("وحدات", {}).get(missile_name, 0) <= 0:
-            await reply(f"❌ ليس لديك *{missile_name}*!")
-            return
-        defender = get_country_by_name(target_name)
-        if not defender:
-            await reply(f"❌ لا توجد دولة باسم `{target_name}`!")
-            return
-        if is_protected(defender):
-            remaining = int((defender["حماية حتى"] - time.time()) / 3600)
-            await reply(f"🛡️ *{target_name}* محمية لمدة {remaining} ساعة!")
-            return
-        missile_data = UNITS[missile_name]
-        attacker["وحدات"][missile_name] -= 1
-        if missile_data["نوع"] == "نووي":
-            for unit in defender.get("وحدات", {}): defender["وحدات"][unit] = int(defender["وحدات"][unit] * 0.2)
-            stolen_gold = int(defender.get("ذهب", 0) * 0.5)
-            attacker["ذهب"] = attacker.get("ذهب", 0) + stolen_gold
-            defender["ذهب"] = max(0, defender.get("ذهب", 0) - stolen_gold)
-            save_country(attacker); save_country(defender)
-            await reply(f"☢️ *ضربة نووية!* ☢️\n\n🚀 *{missile_name}* ضرب *{target_name}*!\n💥 80% من جيشهم دُمر!\n💰 مسروق: {stolen_gold:,}", main_menu_keyboard())
-        else:
-            if defender.get("مباني"):
-                destroyed = random.choice(defender["مباني"])
-                defender["مباني"].remove(destroyed)
-                save_country(attacker); save_country(defender)
-                await reply(f"🚀 *ضربة صاروخية!*\n\n🎯 *{missile_name}* ضرب *{target_name}*\n💥 تم تدمير: *{destroyed}*", main_menu_keyboard())
-            else:
-                save_country(attacker)
-                await reply(f"🚀 *ضربة صاروخية!*\n\n🎯 *{missile_name}* ضرب *{target_name}*\n💥 لا توجد مباني!", main_menu_keyboard())
-        return
-
-    if text.startswith("انشاء تحالف "):
-        parts = text.split(" ", 2)
-        alliance_name = parts[2].strip() if len(parts) > 2 else ""
-        country = load_country(user.id)
-        if not country:
-            await reply("❌ ليس لديك دولة!")
-            return
-        if get_country_alliance(chat_id, country["اسم"]):
-            await reply("❌ أنت في تحالف بالفعل!")
-            return
-        if load_alliance(chat_id, alliance_name):
-            await reply("❌ هذا الاسم مأخوذ!")
-            return
-        new_alliance = {
-            "chat_id": chat_id, "اسم": alliance_name,
-            "قائد": country["اسم"], "جنرالات": [],
-            "أعضاء": [country["اسم"]],
-        }
-        save_alliance(new_alliance)
-        await reply(
-            f"🤝 *تم إنشاء التحالف!*\n\n"
-            f"👑 اسم التحالف: *{alliance_name}*\n"
-            f"🏳️ القائد: *{country['اسم']}*\n\n"
-            f"للانضمام: `انضم تحالف {alliance_name}`",
-            main_menu_keyboard()
         )
         return
 
@@ -1151,7 +1083,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         save_alliance(alliance)
         await reply(
             f"✅ *انضممت لتحالف {alliance_name}!*\n\n"
-            f"👑 القائد: *{alliance['قائد']}*\n"
+            f"👑 القائد الأعلى: *{alliance['قائد']}*\n"
             f"👥 عدد الأعضاء: {len(alliance['أعضاء'])}",
             main_menu_keyboard()
         )
@@ -1167,36 +1099,19 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await reply("❌ أنت لست في أي تحالف!")
             return
         if country["اسم"] == alliance["قائد"] and len(alliance["أعضاء"]) > 1:
-            await reply("❌ لا يمكنك المغادرة وأنت القائد!\nنقّل القيادة أولاً.")
+            await reply("❌ لا يمكنك المغادرة وأنت القائد الأعلى!\nقم بحل التحالف أو نقل القيادة.")
             return
         alliance["أعضاء"].remove(country["اسم"])
         if country["اسم"] in alliance.get("جنرالات", []):
             alliance["جنرالات"].remove(country["اسم"])
+        if country["اسم"] in alliance.get("عمداء", []):
+            alliance["عمداء"].remove(country["اسم"])
+            
         if len(alliance["أعضاء"]) == 0:
             alliances_col.delete_one({"chat_id": chat_id, "اسم": alliance["اسم"]})
         else:
             save_alliance(alliance)
         await reply(f"🚪 *غادرت تحالف {alliance['اسم']}!*", main_menu_keyboard())
-        return
-
-    if text == "جيش تحالفي":
-        country = load_country(user.id)
-        if not country:
-            await reply("❌ ليس لديك دولة!")
-            return
-        alliance = get_country_alliance(chat_id, country["اسم"])
-        if not alliance:
-            await reply("❌ أنت لست في أي تحالف!")
-            return
-        total_power, combined_units = calc_alliance_power(chat_id, alliance)
-        units_text = "\n".join(f"  • {u}: {c:,}" for u, c in combined_units.items() if c > 0) or "  لا يوجد جيش"
-        await reply(
-            f"⚔️ *جيش تحالف {alliance['اسم']}* ⚔️\n"
-            f"━━━━━━━━━━━━━━━\n"
-            f"💪 القوة الإجمالية: {total_power:,}\n\n"
-            f"🪖 *الوحدات المجتمعة:*\n{units_text}",
-            action_keyboard("main_menu")
-        )
         return
 
     if text.startswith("ارسل ذهب "):
@@ -1242,37 +1157,6 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    if text.startswith("جاسوس "):
-        parts = text.split(" ", 1)
-        target_name = parts[1].strip() if len(parts) > 1 else ""
-        my_country = load_country(user.id)
-        if not my_country:
-            await reply("❌ ليس لديك دولة!")
-            return
-        if "جهاز استخبارات" not in my_country.get("مباني", []):
-            await reply("❌ تحتاج *جهاز استخبارات* أولاً!")
-            return
-        target = get_country_by_name(target_name)
-        if not target:
-            await reply(f"❌ لا توجد دولة باسم `{target_name}`!")
-            return
-        target = update_resources(target)
-        save_country(target)
-        units_text = "\n".join(f"  • {u}: {c}" for u, c in target.get("وحدات", {}).items() if c > 0) or "  لا يوجد جيش"
-        alliance = get_country_alliance(chat_id, target_name)
-        alliance_text = f"🤝 التحالف (هنا): {alliance['اسم']}" if alliance else "🤝 لا ينتمي لتحالف هنا"
-        await reply(
-            f"🕵️ *تقرير استخباراتي* 🕵️\n━━━━━━━━━━━━━━━\n"
-            f"🎯 الهدف: *{target_name}*\n"
-            f"💰 الذهب: ~{target.get('ذهب', 0) // 100 * 100:,}\n"
-            f"⚔️ القوة: {calc_power(target.get('وحدات', {})):,}\n"
-            f"🏆 الانتصارات: {target.get('انتصارات', 0)}\n"
-            f"{alliance_text}\n━━━━━━━━━━━━━━━\n"
-            f"🪖 *الجيش:*\n{units_text}",
-            action_keyboard("main_menu")
-        )
-        return
-
 async def execute_alliance_attack(context):
     data = context.job.data
     vote_id = data["vote_id"]
@@ -1290,7 +1174,7 @@ async def execute_alliance_attack(context):
         return
     if yes_votes <= no_votes:
         await context.bot.send_message(chat_id,
-            f"❌ *تم رفض هجوم التحالف!*\n\n✅ موافق: {yes_votes}\n❌ رافض: {no_votes}\n\nالأغلبية رفضت الهجوم على *{target_name}*",
+            f"❌ *تم رفض هجوم التحالف!*\n\n✅ موافق: {yes_votes}\n❌ رافض: {no_votes}\n\nالقيادة رفضت الهجوم على *{target_name}*",
             parse_mode="Markdown")
         return
     defender = get_country_by_name(target_name)
@@ -1366,5 +1250,5 @@ if __name__ == "__main__":
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CallbackQueryHandler(handle_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
-    print("✅ عرش الظلال يعمل! 🌍⚔️")
+    print("✅ عرش الظلال يعمل بكل التعديلات الجديدة! 🌍⚔️")
     application.run_polling()
