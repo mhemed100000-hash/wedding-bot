@@ -1252,3 +1252,125 @@ if __name__ == "__main__":
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     print("✅ عرش الظلال يعمل بكل التعديلات الجديدة! 🌍⚔️")
     application.run_polling()
+
+
+# ======== NEW WAR SYSTEM (SAFE ADD) ========
+def has_shield(country):
+    return time.time() < country.get("shield_until", 0)
+
+def activate_hour_shield(country):
+    country["shield_until"] = time.time() + 3600
+
+def calc_alliance_defense_safe(chat_id, country_name):
+    alliance = alliances_col.find_one({"أعضاء": country_name})
+    if not alliance:
+        return 0
+    total = 0
+    for m in alliance.get("أعضاء", []):
+        c = get_country_by_name(m)
+        if c:
+            total += calc_power(c.get("وحدات", {}))
+    return total
+
+def get_air_defense_bonus(country):
+    bonus = 0
+    for unit, count in country.get("وحدات", {}).items():
+        if UNITS.get(unit, {}).get("نوع") == "دفاع":
+            bonus += UNITS[unit]["قوة"] * count
+    return bonus
+
+def nuclear_attack_success(target):
+    air = get_air_defense_bonus(target)
+    chance = 0.2
+    if air > 200:
+        chance = 0.5
+    if air > 500:
+        chance = 0.7
+    return random.random() > chance
+
+def nuclear_penalty(attacker):
+    attacker["ذهب"] -= int(attacker["ذهب"] * 0.3)
+
+def apply_losses(units, ratio):
+    losses = {}
+    for u in list(units.keys()):
+        old = units[u]
+        new = int(old * ratio)
+        lost = old - new
+        if lost > 0:
+            losses[u] = lost
+        units[u] = new
+    return losses
+
+def build_report(a, t, win, l1, l2, loot):
+    def fmt(l): return "\n".join([f"- {k}: -{v}" for k,v in l.items()]) or "لا يوجد"
+    return f"""⚔️ تقرير المعركة
+━━━━━━━━━━━━━━━
+👤 {a}
+🎯 {t}
+
+🔥 {"انتصار" if win=="attacker" else "هزيمة"}
+
+📉 خسائرك:
+{fmt(l1)}
+
+📉 خسائر العدو:
+{fmt(l2)}
+
+💰 +{loot} ذهب
+🛡️ تم تفعيل الحماية
+"""
+
+# ===== NEW COMMAND =====
+async def new_attack(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    if not text.startswith("هجوم "):
+        return
+    user = update.effective_user
+    target_name = text.replace("هجوم ", "").strip()
+
+    attacker = load_country(user.id)
+    target = get_country_by_name(target_name)
+
+    if not attacker or not target:
+        await update.message.reply_text("❌ الدولة غير موجودة")
+        return
+
+    if has_shield(target):
+        await update.message.reply_text("🛡️ هذه الدولة محمية")
+        return
+
+    attack = calc_power(attacker.get("وحدات", {}))
+    defense = calc_alliance_defense_safe(update.effective_chat.id, target["اسم"]) * 1.2
+
+    attack -= int(get_air_defense_bonus(target) * 0.3)
+
+    if "قنبلة نووية" in attacker.get("وحدات", {}):
+        if not nuclear_attack_success(target):
+            await update.message.reply_text("☢️ تم صد النووي")
+            return
+        attack *= 1.5
+        nuclear_penalty(attacker)
+
+    if attack > defense:
+        win = "attacker"
+        l1 = apply_losses(attacker["وحدات"], 0.8)
+        l2 = apply_losses(target["وحدات"], 0.5)
+        loot = int(target["ذهب"] * 0.25)
+        attacker["ذهب"] += loot
+        target["ذهب"] -= loot
+    else:
+        win = "defender"
+        l1 = apply_losses(attacker["وحدات"], 0.4)
+        l2 = apply_losses(target["وحدات"], 0.8)
+        loot = 0
+
+    activate_hour_shield(target)
+
+    save_country(attacker)
+    save_country(target)
+
+    await update.message.reply_text(build_report(attacker["اسم"], target["اسم"], win, l1, l2, loot))
+
+# ADD HANDLER
+application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, new_attack))
